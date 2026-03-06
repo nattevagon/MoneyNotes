@@ -23,7 +23,7 @@ body,
   height: 100%;
   margin: 0;
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-  background-color: #1E201E;
+  background-color: #141414;
 }
 
 body {

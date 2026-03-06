@@ -4,7 +4,7 @@ import ListTransaction from "@/components/molecules/ListTransaction"
 import { getStorage, saveStorage } from "@/helper/localStorage";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import PeopleDebt from "@/components/molecules/PeopleDebt";
+import ListPersonDebt from "@/components/molecules/ListPersonDebt";
 import { useModal } from "@/context/ModalContext";
 
 const Home = () => {
@@ -74,8 +74,8 @@ const Home = () => {
         <BalanceBar transactions={transactions} admin={admin} />
       </div>
       <div className="mb-6">
-        <h2 className="text-lg font-medium mb-2">People Debt</h2>
-        <PeopleDebt transactions={transactions} admin={admin} />
+        <h2 className="text-lg font-medium mb-2">Person Debt</h2>
+        <ListPersonDebt transactions={transactions} admin={admin} />
       </div>
       <div className="mb-6">
         <h2 className="text-lg font-medium mb-2">Transaction</h2>

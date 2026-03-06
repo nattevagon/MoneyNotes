@@ -16,8 +16,8 @@ export default defineConfig({
         name: 'Money Notes',
         short_name: 'MoneyNotes',
         description: 'Aplikasi PWA untuk mencatat transaksi',
-        theme_color: '#1E201E',
-        background_color: '#1E201E',
+        theme_color: '#141414',
+        background_color: '#141414',
         start_url: '/',
         display: 'standalone',
         icons: [

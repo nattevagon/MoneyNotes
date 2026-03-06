@@ -17,11 +17,12 @@ const ListTransaction = ({ transactions, onRefreshList }) => {
     onRefreshList();
   };
 
-  const handleOpenModal = (category, id) => {
-    if (category === 'debt') {
+  const handleOpenModal = (item) => {
+    console.log('item', item)
+    if (item?.category === 'debt') {
       openModal("confirmFinishDebt", {
-        data: id,
-        onConfirm: () => handleFinishDebt(id), // callback parent
+        data: item,
+        onConfirm: () => handleFinishDebt(item?.id), // callback parent
       });
     }
   }
@@ -33,7 +34,7 @@ const ListTransaction = ({ transactions, onRefreshList }) => {
           <div
             key={item?.id}
             className="w-full bg-[#262628] text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer"
-            onClick={() => handleOpenModal(item?.category, item?.id)}
+            onClick={() => handleOpenModal(item)}
           >
             <div className="flex items-center justify-between gap-2">
               <div>

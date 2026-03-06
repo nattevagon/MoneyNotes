@@ -8,28 +8,42 @@ export const ModalProvider = ({ children }) => {
     type: null,
     data: null,
     isOpen: false,
-    onConfirm: null, // simpan callback yang benar
+    onConfirm: null,
   });
 
-  // buka modal dan simpan callback
-  const openModal = (type, { data = null, onConfirm = null } = {}) => {
-    setModalProps({ type, data, isOpen: true, onConfirm });
+  // buka modal
+  const openModal = (type, options = {}) => {
+    const { data = null, onConfirm = null } = options;
+
+    setModalProps({
+      type,
+      data,
+      isOpen: true,
+      onConfirm,
+    });
   };
 
   const closeModal = () => {
-    setModalProps({ ...modalProps, isOpen: false, type: null, data: null, onConfirm: null });
+    setModalProps((prev) => ({
+      ...prev,
+      type: null,
+      data: null,
+      isOpen: false,
+      onConfirm: null,
+    }));
   };
 
-  // panggil callback yang dikirim parent
   const handleConfirm = () => {
     if (modalProps.onConfirm) {
-      modalProps.onConfirm(); // trigger callback parent
+      modalProps.onConfirm();
     }
-    closeModal(); // tutup modal setelah callback
+    closeModal();
   };
 
   return (
-    <ModalContext.Provider value={{ modalProps, openModal, handleConfirm, closeModal }}>
+    <ModalContext.Provider
+      value={{ modalProps, openModal, handleConfirm, closeModal }}
+    >
       {children}
     </ModalContext.Provider>
   );

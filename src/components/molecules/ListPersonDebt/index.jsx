@@ -1,6 +1,7 @@
 import { formatDate } from "@/helper/formatDate";
+import { Link } from "react-router-dom";
 
-const PeopleDebt = ({ transactions, admin }) => {
+const ListPersonDebt = ({ transactions, admin }) => {
   const transactionsByPeople = transactions
     .filter((item) => item.category === "debt" && item.paidStatus === false)
     .reduce((result, item) => {
@@ -14,6 +15,7 @@ const PeopleDebt = ({ transactions, admin }) => {
       if (!result[people.value]) {
         result[people.value] = {
           name: people.label,
+          username: people.value,
           totalDebt: 0
         };
       }
@@ -34,7 +36,7 @@ const PeopleDebt = ({ transactions, admin }) => {
     <div className="flex flex-col gap-4">
       {peopleList.length > 0 ?
         peopleList?.map((item) => (
-          <div key={item.name} className="w-full bg-[#262628] text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer">
+          <Link to={'/person-debt/' + item?.username} key={item.name} className="w-full bg-[#262628] text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer">
             <div className="flex items-center justify-between gap-2">
               <div>
                 <p className="text-lg text-white">{item?.name}</p>
@@ -50,7 +52,7 @@ const PeopleDebt = ({ transactions, admin }) => {
                 <div className="text-1xl font-medium">Rp {item?.totalDebt?.toLocaleString("id-ID")}</div>
               </div>
             </div>
-          </div>
+          </Link>
         )) : (
           <div className="w-full bg-[#262628] text-white rounded-lg p-4 border border-1 border-[#3d3d40]">
             <p className="text-gray-400">No transactions found.</p>
@@ -60,4 +62,4 @@ const PeopleDebt = ({ transactions, admin }) => {
   )
 }
 
-export default PeopleDebt
+export default ListPersonDebt
