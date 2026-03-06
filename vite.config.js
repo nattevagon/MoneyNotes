@@ -9,9 +9,11 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
+      strategies: 'generateSW',
+      injectRegister: 'auto',
       includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png'],
       manifest: {
-        name: 'MoneyNotes',
+        name: 'Money Notes',
         short_name: 'MoneyNotes',
         description: 'Aplikasi PWA untuk mencatat transaksi',
         theme_color: '#262628',
