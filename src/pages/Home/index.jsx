@@ -65,7 +65,7 @@ const Home = () => {
   };
 
   return (
-    <div className="px-6 pt-8 pb-2">
+    <div className="px-6 pt-8 pb-6">
       <div className="mb-6">
         <h1 className="text-2xl font-medium mb-2">Welcome Back {admin?.name || 'Guest'}!</h1>
         <p className="text-gray-400">Here is a summary of your finances.</p>

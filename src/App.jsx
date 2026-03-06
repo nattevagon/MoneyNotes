@@ -17,7 +17,6 @@ function App() {
     <BrowserRouter>
       <ModalProvider>
         <main className="bg-[#141414] flex flex-col min-h-screen pb-20">
-
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/lists" element={<Lists />} />

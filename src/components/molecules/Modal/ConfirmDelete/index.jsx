@@ -22,7 +22,7 @@ const ConfirmDelete = ({ onConfirm, onClose }) => {
         ${visible ? "opacity-50" : "opacity-0"}`}
       />
       <div
-        className={`relative w-full bg-[#141414] border-1 border-[#3d3d40] rounded-t-2xl p-6 transform transition-all duration-300
+        className={`relative w-full bg-[#141414] border-t-1 border-[#3d3d40] rounded-t-2xl px-6 pt-6 pb-10 transform transition-all duration-300
         ${visible ? "translate-y-0" : "translate-y-60"}`}
       >
         <h3 className="font-bold text-lg mb-4">Really want to delete all transactions?</h3>
