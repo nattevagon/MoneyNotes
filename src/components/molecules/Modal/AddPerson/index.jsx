@@ -3,9 +3,9 @@ import { useEffect, useState } from "react"
 import { getStorage, saveStorage } from "@/helper/localStorage";
 import FormInput from "@/components/molecules/Form/FormInput";
 
-const AddPerson = ({ onConfirm, onClose }) => {
+const AddPerson = ({ data : dataProps, onConfirm, onClose }) => {
   const [visible, setVisible] = useState(false);
-  const addPeople = useForm();
+  const addPerson = useForm();
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 10)
@@ -23,14 +23,14 @@ const AddPerson = ({ onConfirm, onClose }) => {
   
       const newData = {
         id: Date.now(),
-        username: data.peopleName.toLowerCase().replace(/\s/g, ""),
-        name: data.peopleName,
-        role: "user"
+        username: data?.peopleName.toLowerCase().replace(/\s/g, ""),
+        name: data?.peopleName,
+        role: dataProps?.type
       };
   
       const updated = [...oldData, newData];
       saveStorage("peoples", updated);
-      addPeople.reset();
+      addPerson.reset();
       onConfirm();
     };
 
@@ -45,11 +45,11 @@ const AddPerson = ({ onConfirm, onClose }) => {
         className={`relative w-full bg-[#141414] border-t-1 border-[#3d3d40] rounded-t-2xl px-6 pt-6 pb-10 transform transition-all duration-300
         ${visible ? "translate-y-0" : "translate-y-60"}`}
       >
-        <h3 className="font-bold text-lg mb-4">Add Person</h3>
+        <h3 className="font-bold text-lg mb-4">Add {dataProps?.type === "admin" ? 'Admin' : 'Person'}</h3>
         <div>
-          <FormProvider {...addPeople}>
+          <FormProvider {...addPerson}>
             <form
-              onSubmit={addPeople.handleSubmit(onSubmitPeople)}
+              onSubmit={addPerson.handleSubmit(onSubmitPeople)}
               className="space-y-4"
             >
               <FormInput

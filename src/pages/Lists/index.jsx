@@ -10,6 +10,7 @@ const Lists = () => {
   const [tab, setTab] = useState("all");
   const [transactions, setTransactions] = useState([]);
   const { openModal } = useModal();
+  const [admin, setAdmin] = useState([]);
 
   const fetchTransactions = () => {
     const data = getStorage("listTransactions");
@@ -22,7 +23,20 @@ const Lists = () => {
     }
   }
 
+  const findAdmin = (data) => {
+    return data.find(item => item.role === "admin");
+  }
+
+  const fetchPeoples = () => {
+    const data = getStorage("peoples");
+
+    if (data) {
+      setAdmin(findAdmin(data));
+    }
+  }
+
   useEffect(() => {
+    fetchPeoples();
     fetchTransactions();
   }, [tab]);
 
@@ -32,7 +46,12 @@ const Lists = () => {
   }
 
   const handleClearTransaction = () => {
-    openModal("confirmDelete", {
+    openModal("confirm", {
+      data : {
+        type: 'delete',
+        title: 'Delete all data transactions?',
+        desc: ''
+      },
       onConfirm: () => {
         clearStorage("listTransactions");
         fetchTransactions();
@@ -54,7 +73,7 @@ const Lists = () => {
         <a role="tab" className={"text-lg tab" + (tab === "pocket" ? " tab-active" : "")} onClick={() => handleTab("pocket")}>Pocket</a>
       </div>
       <div className="mt-4">
-        <ListTransaction transactions={transactions} onRefreshList={fetchTransactions} />
+        <ListTransaction transactions={transactions} admin={admin} onRefreshList={fetchTransactions} />
       </div>
     </div>
   )

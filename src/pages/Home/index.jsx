@@ -9,7 +9,7 @@ import { useModal } from "@/context/ModalContext";
 
 const Home = () => {
   const [transactions, setTransactions] = useState([]);
-  const addPeople = useForm();
+  const addPerson = useForm();
   const [admin, setAdmin] = useState([]);
   const { openModal } = useModal();
 
@@ -37,7 +37,13 @@ const Home = () => {
     const dataPeoples = getStorage("peoples");
 
     if (dataPeoples && !dataPeoples.find(item => item.role === "admin")) {
-      document.getElementById('addAdmin').showModal();
+      const item = {
+        type: 'admin'
+      }
+      openModal("addPerson", {
+        data: item,
+        onConfirm: () => fetchPeoples(), // callback parent
+      });
     }
   }, []);
 
@@ -59,9 +65,8 @@ const Home = () => {
 
     const updated = [...oldData, newData];
     saveStorage("peoples", updated);
-    addPeople.reset();
+    addPerson.reset();
     fetchPeoples();
-    document.getElementById('addAdmin').close();
   };
 
   return (
@@ -74,39 +79,13 @@ const Home = () => {
         <BalanceBar transactions={transactions} admin={admin} />
       </div>
       <div className="mb-6">
-        <h2 className="text-lg font-medium mb-2">Person Debt</h2>
+        <h2 className="text-lg font-medium mb-2">Person debt with you</h2>
         <ListPersonDebt transactions={transactions} admin={admin} />
       </div>
       <div className="mb-6">
-        <h2 className="text-lg font-medium mb-2">Transaction</h2>
-        <ListTransaction transactions={transactions} onRefreshList={fetchTransactions} />
+        <h2 className="text-lg font-medium mb-2">Transactions</h2>
+        <ListTransaction transactions={transactions} admin={admin} onRefreshList={fetchTransactions} />
       </div>
-      <dialog id="addAdmin" className="modal">
-        <div className="modal-box">
-          <form method="dialog">
-            {/* if there is a button in form, it will close the modal */}
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-          </form>
-          <h3 className="font-bold text-lg mb-4">Add your name</h3>
-          <div>
-            <FormProvider {...addPeople}>
-              <form
-                onSubmit={addPeople.handleSubmit(onSubmitPeople)}
-                className="space-y-4"
-              >
-                <FormInput
-                  name="peopleName"
-                  type="text"
-                  placeholder="Place a name"
-                />
-                <button className="btn bg-linear-to-r from-[#090040] to-[#065084] text-white w-full mt-4 rounded-lg border border-1 border-[#3d3d40]" type="submit">
-                  Save
-                </button>
-              </form>
-            </FormProvider>
-          </div>
-        </div>
-      </dialog>
     </div>
   )
 }

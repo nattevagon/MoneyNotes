@@ -2,7 +2,7 @@ import { formatDate } from "@/helper/formatDate";
 import { getStorage, saveStorage } from "@/helper/localStorage";
 import { useModal } from "@/context/ModalContext";
 
-const ListTransaction = ({ transactions, onRefreshList }) => {
+const ListTransaction = ({ transactions, admin, onRefreshList }) => {
   const { openModal } = useModal();
 
   const handleFinishDebt = (id) => {
@@ -22,9 +22,33 @@ const ListTransaction = ({ transactions, onRefreshList }) => {
     if (item?.category === 'debt') {
       openModal("confirmFinishDebt", {
         data: item,
+        onDelete: () => handleClearThisTransaction(item),
         onConfirm: () => handleFinishDebt(item?.id), // callback parent
       });
     }
+  }
+
+  const handleRemoveTransaction = (id) => {
+    const oldData = getStorage("listTransactions") || [];
+    const updated = oldData.filter(item => item?.id !== id);
+
+    saveStorage("listTransactions", updated);
+    onRefreshList();
+  };
+
+  const handleClearThisTransaction = (item) => {
+    openModal("confirm", {
+      data: {
+        type: 'delete',
+        title: 'Delete this data transactions?',
+        desc: '',
+        transactions: item,
+        admin: admin
+      },
+      onConfirm: () => {
+        handleRemoveTransaction(item?.id);
+      }
+    });
   }
 
   return (
@@ -45,7 +69,7 @@ const ListTransaction = ({ transactions, onRefreshList }) => {
                 )}
               </div>
               <div>
-                <div className="text-1xl font-medium">Rp {item?.amount?.toLocaleString("id-ID")}</div>
+                <div className="text-1xl font-medium">Rp {item?.creditor?.value !== admin?.username ? '-' : ''}{item?.amount?.toLocaleString("id-ID")}</div>
                 {item?.category === "debt" && (
                   <p className={"text-sm text-right" + (item?.paidStatus ? " text-[#1bc45b]" : " text-[#da2a2a]")}>{item?.paidStatus ? "Paid" : "Unpaid"}</p>
                 )}

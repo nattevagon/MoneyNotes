@@ -1,13 +1,29 @@
-import { ChartPieIcon, HomeIcon, PlusIcon, QueueListIcon } from '@heroicons/react/24/solid'
-import { Link } from "react-router-dom"
+import { ChartPieIcon, HomeIcon, PlusIcon, QueueListIcon } from '@heroicons/react/24/solid';
+import { Link, useNavigate } from "react-router-dom";
+import { getStorage } from "@/helper/localStorage";
 import { useModal } from "@/context/ModalContext";
 
 const Navigation = () => {
   const { openModal } = useModal();
+  const navigate = useNavigate();
+
+  const findAdmin = () => {
+    const data = getStorage("peoples");
+    return data.find(item => item.role === "admin");
+  }
 
   const handleOpenModalChoose = () => {
-    // alert('halo')
-    openModal("chooseTypeTransaction");
+    if (findAdmin()) {
+      openModal("chooseTypeTransaction");
+    } else {
+      const item = {
+        type: 'admin'
+      }
+      openModal("addPerson", {
+        data: item,
+        onConfirm: () => navigate(0),
+      });
+    }
   }
   return (
     <nav className="fixed bottom-0 left-0 right-0">

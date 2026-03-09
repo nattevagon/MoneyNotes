@@ -7,7 +7,6 @@ import FormCurrency from "@/components/molecules/Form/FormCurrency";
 import { getStorage, saveStorage } from "@/helper/localStorage";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useModal } from "@/context/ModalContext";
 
 const AddDebtTransaction = () => {
   const navigate = useNavigate();
@@ -16,8 +15,10 @@ const AddDebtTransaction = () => {
       date: new Date()
     }
   });
+  const { watch, setValue } = addTransaction;
+  const creditor = watch("creditor");
+  const debtor = watch("debtor");
   const [peoples, setPeoples] = useState([]);
-  const { openModal } = useModal();
 
   const fetchPeoples = () => {
     const data = getStorage("peoples");
@@ -29,6 +30,11 @@ const AddDebtTransaction = () => {
       }));
       setPeoples(formatted);
     }
+  }
+
+  const findAdmin = () => {
+    const data = getStorage("peoples");
+    return data.find(item => item.role === "admin");
   }
 
   useEffect(() => {
@@ -56,11 +62,66 @@ const AddDebtTransaction = () => {
     navigate("/lists");
   };
 
-  const handleOpenModalAddPeople = () => {
-    openModal("addPeople", {
-      onConfirm: () => fetchPeoples(), // callback parent
-    });
-  }
+  // AUTO FILL DEBTOR
+  useEffect(() => {
+    const admin = findAdmin();
+    if (admin && creditor && creditor.value !== admin?.username) {
+      setValue("debtor", {
+        value: admin?.username,
+        label: admin?.name
+      });
+    }
+  }, [creditor, setValue]);
+
+  // AUTO FILL CREDITOR
+  useEffect(() => {
+    const admin = findAdmin();
+    if (admin && debtor && debtor.value !== admin?.username) {
+      setValue("creditor", {
+        value: admin?.username,
+        label: admin?.name
+      });
+    }
+  }, [debtor, setValue]);
+
+  useEffect(() => {
+    if (
+      creditor &&
+      debtor &&
+      creditor.value === debtor.value
+    ) {
+      setValue("debtor", null);
+    }
+  }, [creditor, debtor, setValue]);
+
+  const handleAddPeople = (value) => {
+    const oldData = getStorage("peoples") || [];
+
+    const username = value
+      .toLowerCase()
+      .replace(/\s/g, "");
+
+    // cek apakah sudah ada
+    const isExist = oldData.some(
+      (item) => item.username === username
+    );
+
+    if (isExist) {
+      alert("Person already exists");
+      return;
+    }
+
+    const newData = {
+      id: Date.now(),
+      username,
+      name: value,
+      role: "user"
+    };
+
+    const updated = [...oldData, newData];
+    saveStorage("peoples", updated);
+    fetchPeoples();
+  };
 
   return (
     <div className="px-6 py-8">
@@ -81,14 +142,14 @@ const AddDebtTransaction = () => {
             label="Creditor"
             options={peoples}
             placeholder="Find who owes you"
-            onOpenModal={() => handleOpenModalAddPeople()}
+            onAddPerson={(value) => handleAddPeople(value)}
           />
           <FormSelect
             name="debtor"
             label="Debtor"
             options={peoples}
             placeholder="Find who you owe to"
-            onOpenModal={() => handleOpenModalAddPeople()}
+            onAddPerson={(value) => handleAddPeople(value)}
           />
           <FormDatePicker
             name="date"

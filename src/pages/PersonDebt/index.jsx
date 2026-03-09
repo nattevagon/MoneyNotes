@@ -1,6 +1,6 @@
 import ListTransaction from "@/components/molecules/ListTransaction"
-import { getStorage } from "@/helper/localStorage";
-import { PlusIcon, TrashIcon } from "@heroicons/react/24/solid"
+import { getStorage, saveStorage } from "@/helper/localStorage";
+import { CheckBadgeIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/solid"
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { useModal } from "@/context/ModalContext";
@@ -34,7 +34,7 @@ const PersonDebt = () => {
 
   const fetchTransactions = (id) => {
     const data = getStorage("listTransactions");
-    const dataFiltered = data?.filter(item => item.creditor.value === id || item.debtor.value === id);
+    const dataFiltered = data?.filter(item => item?.creditor?.value === id || item?.debtor?.value === id);
     setTransactions(dataFiltered);
 
     console.log('dataFiltered', dataFiltered)
@@ -45,7 +45,6 @@ const PersonDebt = () => {
     fetchTransactions(id);
     console.log('id', id)
   }, [id]);
-
 
   const dataFilteredSummary = transactions.reduce((acc, item) => {
     if (
@@ -74,11 +73,36 @@ const PersonDebt = () => {
 
   console.log('data summray', dataFilteredSummary)
 
-  const handleClearTransaction = () => {
-    openModal("confirmDelete", {
+  // const handleClearTransaction = () => {
+  //   openModal("confirm", {
+  //     onConfirm: () => {
+  //       clearStorage("listTransactions");
+  //       fetchTransactions();
+  //     }
+  //   });
+  // }
+
+  const finishAllDebt = () => {
+    console.log('finish all')
+    const transactions = getStorage("listTransactions") || [];
+    const updatedTransactions = transactions.map(item =>
+      String(item?.creditor?.value || item?.debtor?.value) === String(person?.username)
+        ? { ...item, paidStatus: true }
+        : item
+    );
+    saveStorage("listTransactions", updatedTransactions);
+    fetchTransactions(id);
+  }
+
+  const handleFinishAllDebt = () => {
+    openModal("confirm", {
+      data: {
+        type: 'finish',
+        title: 'Finish this debt transactions?',
+        desc: ''
+      },
       onConfirm: () => {
-        clearStorage("listTransactions");
-        fetchTransactions();
+        finishAllDebt();
       }
     });
   }
@@ -93,12 +117,22 @@ const PersonDebt = () => {
           <TrashIcon className="w-6 h-6 inline-block m-auto" />
         </button> */}
       </div>
-      <div className="mt-4 px-4 py-6 bg-[#065084] text-white rounded-lg mb-4 border border-1 border-[#3d3d40]">
-        <h2 className="mb-2">Current Balance with {person?.name}</h2>
+      <div className="mt-4 px-4 py-6 bg-[#262628] text-white rounded-lg mb-4 border border-1 border-[#3d3d40]">
+        <div className="mb-2">
+          <h2>Current Balance</h2>
+          <p className="text-sm text-gray-400">Debt with {person?.name}</p>
+        </div>
         <p className="text-2xl font-medium">Rp {dataFilteredSummary?.totalDebt?.toLocaleString("id-ID") || '0'}</p>
+        <div className="mt-4">
+          <button className=" bg-[#065084] w-full text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer text-center" onClick={() => handleFinishAllDebt()}>
+            <CheckBadgeIcon className="w-5 h-5 inline-block mr-2" />
+            <p className="inline-block">Finish All Debt</p>
+          </button>
+        </div>
       </div>
       <div className="mt-4">
-        <ListTransaction transactions={transactions} onRefreshList={fetchTransactions} />
+        <h2 className="text-lg font-medium mb-2">Transactions</h2>
+        <ListTransaction transactions={transactions} admin={admin} onRefreshList={fetchTransactions} />
       </div>
     </div>
   )

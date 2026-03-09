@@ -1,12 +1,11 @@
 import { useForm, FormProvider } from "react-hook-form";
 import "react-datepicker/dist/react-datepicker.css";
 import FormInput from "@/components/molecules/Form/FormInput";
-import FormSelect from "@/components/molecules/Form/FormSelect";
 import FormDatePicker from "@/components/molecules/Form/FormDatePicker";
 import FormCurrency from "@/components/molecules/Form/FormCurrency";
 import { getStorage, saveStorage } from "@/helper/localStorage";
-import { Link, useNavigate } from "react-router-dom";
-import { DivideIcon, PlusIcon, ArrowUpCircleIcon, ArrowDownCircleIcon } from "@heroicons/react/24/solid";
+import { useNavigate } from "react-router-dom";
+import { ArrowUpCircleIcon, ArrowDownCircleIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 
 const AddPocketTransaction = () => {
@@ -16,8 +15,6 @@ const AddPocketTransaction = () => {
       date: new Date()
     }
   });
-  const addPeople = useForm();
-  const [peoples, setPeoples] = useState([]);
   const [pocketType, setPocketType] = useState(false);
   const [admin, setAdmin] = useState([]);
 
@@ -70,7 +67,6 @@ const AddPocketTransaction = () => {
         >
           {pocketType ? <ArrowUpCircleIcon className="w-6 h-6" /> : <ArrowDownCircleIcon className="w-6 h-6" />}
         </div>
-
       </div>
       <FormProvider {...addTransaction}>
         <form
@@ -96,7 +92,6 @@ const AddPocketTransaction = () => {
           <button className="btn bg-linear-to-r from-[#090040] to-[#065084] text-white w-full mt-4 rounded-lg border border-1 border-[#3d3d40]" type="submit">
             Save
           </button>
-
         </form>
       </FormProvider>
     </div>

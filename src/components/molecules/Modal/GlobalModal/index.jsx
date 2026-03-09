@@ -1,15 +1,16 @@
 import { useModal } from "@/context/ModalContext";
 import ConfirmFinishDebt from "../ConfirmFinishDebt";
-import ConfirmDelete from "../ConfirmDelete";
 import ChooseTypeTransaction from "../ChooseTypeTransaction";
 import AddPerson from "../AddPerson";
+import Confirm from "../Confirm";
 
 const GlobalModal = () => {
-  const { modalProps, handleConfirm, closeModal } = useModal();
+  const { modalProps, handleConfirm, handleDelete, closeModal } = useModal();
 
   if (!modalProps.isOpen) return null;
 
   console.log('modalProps.type', modalProps.type)
+  console.log('modalProps.data', modalProps.data)
 
   switch (modalProps.type) {
     case "confirmFinishDebt":
@@ -17,12 +18,14 @@ const GlobalModal = () => {
         <ConfirmFinishDebt
           data={modalProps.data}
           onConfirm={handleConfirm}
+          onDelete={handleDelete}
           onClose={closeModal}
         />
       );
-    case "confirmDelete":
+    case "confirm":
       return (
-        <ConfirmDelete
+        <Confirm
+          data={modalProps.data}
           onConfirm={handleConfirm}
           onClose={closeModal}
         />
@@ -33,9 +36,10 @@ const GlobalModal = () => {
           onClose={closeModal}
         />
       );
-    case "addPeople":
+    case "addPerson":
       return (
         <AddPerson
+          data={modalProps.data}
           onConfirm={handleConfirm}
           onClose={closeModal}
         />

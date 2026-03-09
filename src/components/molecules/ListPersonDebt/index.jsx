@@ -3,12 +3,19 @@ import { Link } from "react-router-dom";
 
 const ListPersonDebt = ({ transactions, admin }) => {
   const transactionsByPeople = transactions
-    .filter((item) => item.category === "debt" && item.paidStatus === false)
+    .filter(
+      (item) =>
+        item.category === "debt" &&
+        item.paidStatus === false &&
+        (
+          item.creditor?.value === admin?.username ||
+          item.debtor?.value === admin?.username
+        )
+    )
     .reduce((result, item) => {
-      const people =
-        item.creditor?.value === admin?.username
-          ? item.debtor
-          : item.creditor;
+      const isAdminCreditor = item.creditor?.value === admin?.username;
+
+      const people = isAdminCreditor ? item.debtor : item.creditor;
 
       if (!people) return result;
 
@@ -20,9 +27,11 @@ const ListPersonDebt = ({ transactions, admin }) => {
         };
       }
 
-      if (item.creditor?.value === admin?.username) {
+      if (isAdminCreditor) {
+        // orang lain berhutang ke admin
         result[people.value].totalDebt += item.amount;
       } else {
+        // admin berhutang ke orang lain
         result[people.value].totalDebt -= item.amount;
       }
 

@@ -1,19 +1,27 @@
 import { useEffect, useState } from "react"
-import { CheckBadgeIcon, XMarkIcon } from "@heroicons/react/24/solid"
+import { CheckBadgeIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/solid"
 import { formatDate } from "@/helper/formatDate";
+import { getStorage } from "@/helper/localStorage";
 
-const ConfirmFinishDebt = ({ data, onConfirm, onClose }) => {
-  const [visible, setVisible] = useState(false)
+const ConfirmFinishDebt = ({ data, onConfirm, onDelete, onClose }) => {
+  const [visible, setVisible] = useState(false);
+
+  const findAdmin = () => {
+    const data = getStorage("peoples");
+    return data.find(item => item.role === "admin");
+  }
+
+  const admin = findAdmin();
 
   useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 10)
+    const t = setTimeout(() => setVisible(true), 10);
     return () => clearTimeout(t)
   }, [])
 
 
   const handleClose = () => {
     setVisible(false)
-    setTimeout(onClose, 300)
+    setTimeout(onClose, 300);
   }
 
   return (
@@ -24,8 +32,8 @@ const ConfirmFinishDebt = ({ data, onConfirm, onClose }) => {
          ${visible ? "opacity-50" : "opacity-0"}`}
       />
       <div
-        className={`relative w-full bg-[#141414] border-t-1 border-[#3d3d40] rounded-t-2xl px-6 pt-6 pb-10 transform transition-all duration-300
-         ${visible ? "translate-y-0" : "translate-y-60"}`}
+        className={`relative w-full bg-[#141414] border-t-1 border-[#3d3d40] rounded-t-2xl px-6 pt-6 pb-10 transform transition-all duration-400
+         ${visible ? "translate-y-0" : "translate-y-80"}`}
       >
         <h3 className="font-bold text-lg">Really want to finish this debt?</h3>
         <div className="w-full bg-[#262628] text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer my-4" >
@@ -38,7 +46,7 @@ const ConfirmFinishDebt = ({ data, onConfirm, onClose }) => {
               )}
             </div>
             <div>
-              <div className="text-1xl font-medium">Rp {data?.amount?.toLocaleString("id-ID")}</div>
+              <div className="text-1xl font-medium">Rp {admin?.username === data?.debtor?.value ? '-' : ''}{data?.amount?.toLocaleString("id-ID")}</div>
               {data?.category === "debt" && (
                 <p className={"text-sm text-right" + (data?.paidStatus ? " text-[#1bc45b]" : " text-[#da2a2a]")}>{data?.paidStatus ? "Paid" : "Unpaid"}</p>
               )}
@@ -48,15 +56,19 @@ const ConfirmFinishDebt = ({ data, onConfirm, onClose }) => {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-stretch justify-between gap-4">
           <button className="bg-[#262628] w-full text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer text-center" onClick={onConfirm}>
             <CheckBadgeIcon className="w-5 h-5 inline-block mr-2" />
             <p className="inline-block">Finish</p>
           </button>
-          <button className="bg-[#262628] w-full text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer text-center" onClick={onClose}>
-            <XMarkIcon className="w-5 h-5 inline-block mr-2" />
-            <p className="inline-block">Cancel</p>
-          </button>
+          <div className="flex items-stretch justify-between gap-4">
+            <button className="bg-[#262628] w-full text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer flex items-center justify-center" onClick={onDelete}>
+              <TrashIcon className="w-5 h-5 inline-block" />
+            </button>
+            <button className="bg-[#262628] w-full text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer flex items-center justify-center" onClick={onClose}>
+              <XMarkIcon className="w-5 h-5 inline-block" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
