@@ -1,6 +1,6 @@
 import ListTransaction from "@/components/molecules/ListTransaction"
 import { getStorage, saveStorage } from "@/helper/localStorage";
-import { CheckBadgeIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/solid"
+import { ArrowLeftIcon, CheckBadgeIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/solid"
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { useModal } from "@/context/ModalContext";
@@ -98,7 +98,7 @@ const PersonDebt = () => {
     openModal("confirm", {
       data: {
         type: 'finish',
-        title: 'Finish this debt transactions?',
+        title: 'Finish all debt transactions?',
         desc: ''
       },
       onConfirm: () => {
@@ -110,8 +110,11 @@ const PersonDebt = () => {
   return (
     <div className="px-6 py-8">
       <div className="flex gap-4 justify-between mb-2">
-        <div>
-          <h2 className="text-3xl font-medium mb-2">Person Debt</h2>
+        <div className="flex gap-4 justify-between mb-2">
+          <button className="flex aligns-center justify-center px-4 py-2 rounded-lg bg-[#262628] text-white border border-1 border-[#3d3d40] hover:bg-[#3d3d40] transition-colors cursor-pointer" onClick={() => navigate('/')}>
+            <ArrowLeftIcon className="w-4 h-4 inline-block m-auto" />
+          </button>
+          <h2 className="text-2xl font-medium">Person Debt</h2>
         </div>
         {/* <button className="flex aligns-center justify-center px-4 py-2 rounded-lg bg-[#262628] text-white border border-1 border-[#3d3d40] hover:bg-[#3d3d40] transition-colors cursor-pointer">
           <TrashIcon className="w-6 h-6 inline-block m-auto" />
