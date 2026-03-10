@@ -4,13 +4,15 @@ import Home from "./pages/Home";
 import Lists from "./pages/Lists";
 import Navigation from "./components/molecules/Navigation";
 import Reports from "./pages/Reports";
-import AddDebtTransaction from "./pages/AddDebtTransaction";
-import AddPocketTransaction from "./pages/AddPocketTransaction";
-import ChooseAddTypeTransaction from "./components/molecules/Modal/ChooseTypeTransaction";
+import FormDebtTransaction from "./pages/FormDebtTransaction";
+import FormPocketTransaction from "./pages/FormPocketTransaction";
+import ChooseFormTypeTransaction from "./components/molecules/Modal/ChooseTypeTransaction";
 import ConfirmFinishDebt from "./components/molecules/Modal/ConfirmFinishDebt";
 import { ModalProvider } from "./context/ModalContext";
 import GlobalModal from "./components/molecules/Modal/GlobalModal";
 import PersonDebt from "./pages/PersonDebt";
+import Accounts from "./pages/Accounts";
+import FormAccount from "./pages/FormAccount";
 
 function App() {
   return (
@@ -21,9 +23,11 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/lists" element={<Lists />} />
             <Route path="/reports" element={<Reports />} />
-            <Route path="/add-debt-transaction" element={<AddDebtTransaction />} />
-            <Route path="/add-pocket-transaction" element={<AddPocketTransaction />} />
+            <Route path="/debt-transaction/:type/:id?" element={<FormDebtTransaction />} />
+            <Route path="/pocket-transaction/:type/:id?" element={<FormPocketTransaction />} />
             <Route path="/person-debt/:id" element={<PersonDebt />} />
+            <Route path="/account" element={<Accounts />} />
+            <Route path="/account/:type/:id?" element={<FormAccount />} />
           </Routes>
         </main>
         <Navigation />

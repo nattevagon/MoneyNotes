@@ -32,7 +32,7 @@ const ChooseAddTypeTransaction = ({ onClose }) => {
 
         <div className="flex justify-between gap-4">
           <Link
-            to="/add-debt-transaction"
+            to="/debt-transaction/add"
             onClick={handleClose}
             className="w-full bg-[#262628] text-white rounded-lg p-4 border border-[#3d3d40] hover:bg-[#44444E] transition-colors text-center"
           >
@@ -41,7 +41,7 @@ const ChooseAddTypeTransaction = ({ onClose }) => {
           </Link>
 
           <Link
-            to="/add-pocket-transaction"
+            to="/pocket-transaction/add"
             onClick={handleClose}
             className="w-full bg-[#262628] text-white rounded-lg p-4 border border-[#3d3d40] hover:bg-[#44444E] transition-colors text-center"
           >

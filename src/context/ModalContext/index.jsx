@@ -9,18 +9,20 @@ export const ModalProvider = ({ children }) => {
     data: null,
     isOpen: false,
     onConfirm: null,
+    onEdit: null,
     onDelete: null
   });
 
   // buka modal
   const openModal = (type, options = {}) => {
-    const { data = null, onConfirm = null, onDelete = null } = options;
+    const { data = null, onConfirm = null, onEdit = null, onDelete = null } = options;
 
     setModalProps({
       type,
       data,
       isOpen: true,
       onConfirm,
+      onEdit,
       onDelete
     });
   };
@@ -32,12 +34,23 @@ export const ModalProvider = ({ children }) => {
       data: null,
       isOpen: false,
       onConfirm: null,
+      onEdit: null,
       onDelete: null
     }));
   };
 
   const handleConfirm = () => {
     const callback = modalProps.onConfirm;
+
+    closeModal();
+
+    setTimeout(() => {
+      if (callback) callback();
+    }, 0);
+  };
+
+  const handleEdit = () => {
+    const callback = modalProps.onEdit;
 
     closeModal();
 
@@ -58,7 +71,7 @@ export const ModalProvider = ({ children }) => {
 
   return (
     <ModalContext.Provider
-      value={{ modalProps, openModal, handleConfirm, handleDelete, closeModal }}
+      value={{ modalProps, openModal, handleConfirm, handleEdit, handleDelete, closeModal }}
     >
       {children}
     </ModalContext.Provider>

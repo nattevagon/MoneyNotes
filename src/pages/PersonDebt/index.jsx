@@ -110,7 +110,7 @@ const PersonDebt = () => {
   return (
     <div className="px-6 py-8">
       <div className="flex gap-4 justify-between mb-2">
-        <div className="flex gap-4 justify-between mb-2">
+        <div className="flex gap-4 justify-between">
           <button className="flex aligns-center justify-center px-4 py-2 rounded-lg bg-[#262628] text-white border border-1 border-[#3d3d40] hover:bg-[#3d3d40] transition-colors cursor-pointer" onClick={() => navigate('/')}>
             <ArrowLeftIcon className="w-4 h-4 inline-block m-auto" />
           </button>

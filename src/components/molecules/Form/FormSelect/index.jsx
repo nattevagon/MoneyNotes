@@ -5,9 +5,9 @@ import Select, { components } from "react-select";
 const MenuList = (props) => {
   const { selectProps, children } = props;
 
-  const handleAddPerson = () => {
+  const handleAddItem = () => {
     const inputValue = selectProps.inputValue;
-    selectProps.onAddPerson(inputValue);
+    selectProps.onAddItem(inputValue);
   };
 
   const isNoOption = !Array.isArray(children);
@@ -15,12 +15,12 @@ const MenuList = (props) => {
   return (
     <components.MenuList {...props}>
       {children}
-      {isNoOption && (
+      {(isNoOption && selectProps.inputValue.length > 0) && (
         <div className="p-4 border-t-1 border-[#3d3d40] mt-4">
           <button
             type="button"
             className="bg-[#065084] text-white text-xs p-2 w-full rounded-lg border border-1 border-[#3d3d40] flex items-center justify-center gap-2"
-            onClick={handleAddPerson}
+            onClick={handleAddItem}
           >
             <PlusIcon className="w-4 h-4 inline-block" />
             Add {selectProps.inputValue}
@@ -36,7 +36,7 @@ export default function FormSelect({
   label,
   options,
   placeholder,
-  onAddPerson
+  onAddItem
 }) {
   const { control } = useFormContext();
 
@@ -58,7 +58,7 @@ export default function FormSelect({
             placeholder={placeholder}
             onChange={(val) => field.onChange(val)}
             components={{ MenuList }}
-            onAddPerson={onAddPerson}
+            onAddItem={onAddItem}
             maxMenuHeight={200}
             styles={{
               control: (base, state) => ({

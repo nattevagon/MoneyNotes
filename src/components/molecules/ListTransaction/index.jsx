@@ -1,12 +1,14 @@
 import { formatDate } from "@/helper/formatDate";
 import { getStorage, saveStorage } from "@/helper/localStorage";
 import { useModal } from "@/context/ModalContext";
+import { useNavigate } from "react-router-dom";
 
 const ListTransaction = ({ transactions, admin, onRefreshList }) => {
   const { openModal } = useModal();
+  const navigate = useNavigate();
 
   const handleFinishDebt = (id) => {
-    console.log("confirm", id)
+    console.log("confirmWithDetail", id)
     const transactions = getStorage("listTransactions") || [];
     const updatedTransactions = transactions.map(item =>
       String(item.id) === String(id)
@@ -22,6 +24,7 @@ const ListTransaction = ({ transactions, admin, onRefreshList }) => {
     if (item?.category === 'debt') {
       openModal("confirmFinishDebt", {
         data: item,
+        onEdit: () => navigate('/debt-transaction/edit/' + item?.id),
         onDelete: () => handleClearThisTransaction(item),
         onConfirm: () => handleFinishDebt(item?.id), // callback parent
       });
@@ -37,12 +40,12 @@ const ListTransaction = ({ transactions, admin, onRefreshList }) => {
   };
 
   const handleClearThisTransaction = (item) => {
-    openModal("confirm", {
+    openModal("confirmWithDetail", {
       data: {
         type: 'delete',
-        title: 'Delete this data transactions?',
+        title: 'Delete this data transaction?',
         desc: '',
-        transactions: item,
+        transaction: item,
         admin: admin
       },
       onConfirm: () => {
