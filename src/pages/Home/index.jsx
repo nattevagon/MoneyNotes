@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import ListPersonDebt from "@/components/molecules/ListPersonDebt";
 import { useModal } from "@/context/ModalContext";
+import { ArrowRightIcon } from "@heroicons/react/24/solid";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [transactions, setTransactions] = useState([]);
@@ -72,7 +74,7 @@ const Home = () => {
   return (
     <div className="px-6 pt-8 pb-6">
       <div className="mb-6">
-        <h1 className="text-2xl font-medium mb-2">Welcome Back {admin?.name || 'Guest'}!</h1>
+        <h1 className="text-2xl font-medium mb-1">Welcome Back {admin?.name || 'Guest'}!</h1>
         <p className="text-gray-400">Here is a summary of your finances.</p>
       </div>
       <div className="mb-6">
@@ -83,8 +85,14 @@ const Home = () => {
         <ListPersonDebt transactions={transactions} admin={admin} />
       </div>
       <div className="mb-6">
-        <h2 className="text-lg font-medium mb-2">Transactions</h2>
-        <ListTransaction transactions={transactions} admin={admin} onRefreshList={fetchTransactions} />
+        <div className="flex gap-4 justify-between mb-2">
+          <h2 className="text-lg font-medium">Latest Transactions</h2>
+          <Link to="/lists" className="flex items-center gap-2 px-3 py-1 rounded-lg bg-[#262628] text-white border border-1 border-[#3d3d40] hover:bg-[#3d3d40] transition-colors cursor-pointer">
+            <ArrowRightIcon className="w-3 h-3 inline-block m-auto" />
+          </Link>
+        </div>
+
+        <ListTransaction transactions={transactions} limit={4} admin={admin} onRefreshList={fetchTransactions} />
       </div>
     </div>
   )

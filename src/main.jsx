@@ -18,6 +18,8 @@ const updateSW = registerSW({
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <div className="relative overflow-hidden w-full h-screen">
+      <App />
+    </div>
   </StrictMode>,
 )

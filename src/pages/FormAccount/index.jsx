@@ -202,6 +202,7 @@ const FormAccount = () => {
                 options={peoples}
                 placeholder="Type a name"
                 onAddItem={(value) => handleAddPerson(value)}
+                rules={{ required: "Select is required" }}
               />
               <FormSelect
                 name="bank"
@@ -209,12 +210,14 @@ const FormAccount = () => {
                 options={banks}
                 placeholder="Find your bank"
                 onAddItem={(value) => handleAddBank(value)}
+                rules={{ required: "Select is required" }}
               />
               <FormInput
                 name="accountNumber"
                 label="Account Number"
                 type="number"
                 placeholder="Place a Account Number"
+                rules={{ required: "Account number is required" }}
               />
               <button className="btn bg-linear-to-r from-[#090040] to-[#065084] text-white w-full mt-4 rounded-lg border border-1 border-[#3d3d40]" type="submit">
                 Save
