@@ -26,9 +26,13 @@ body,
   background-color: #141414;
 }
 
-
 * {
   -webkit-tap-highlight-color: transparent;
+}
+
+.motion-page {
+  transform: translate3d(0,0,0);
+  backface-visibility: hidden;
 }
 
 body {
@@ -39,3 +43,4 @@ body {
 button {
   cursor: pointer;
 }
+

@@ -9,12 +9,10 @@ function App() {
   return (
     <BrowserRouter>
       <ModalProvider>
-        <div className="flex flex-col h-screen bg-[#141414] overflow-hidden">
-          <main className="flex-1 overflow-y-auto pb-20">
-            <AnimateRoute />
-          </main>
+        <main className="relative flex flex-col h-screen bg-[#141414] overflow-hidden">
+          <AnimateRoute />
           <Navigation />
-        </div>
+        </main>
         <GlobalModal />
       </ModalProvider>
     </BrowserRouter>
