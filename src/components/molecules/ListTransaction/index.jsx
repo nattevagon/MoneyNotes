@@ -3,7 +3,7 @@ import { getStorage, saveStorage } from "@/helper/localStorage";
 import { useModal } from "@/context/ModalContext";
 import { useNavigate } from "react-router-dom";
 
-const ListTransaction = ({ transactions, admin, limit = null, onRefreshList }) => {
+const ListTransaction = ({ transactions, admin, onRefreshList }) => {
   const { openModal } = useModal();
   const navigate = useNavigate();
 
@@ -54,16 +54,10 @@ const ListTransaction = ({ transactions, admin, limit = null, onRefreshList }) =
     });
   }
 
-  let listWithLimit = transactions;
-
-  if (transactions && limit) {
-    listWithLimit = transactions?.slice(0, limit);
-  }
-
   return (
     <div className="flex flex-col gap-4">
       {transactions.length > 0 ?
-        listWithLimit?.map((item) => (
+        transactions?.map((item) => (
           <div
             key={item?.id}
             className="w-full bg-[#262628] text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer"

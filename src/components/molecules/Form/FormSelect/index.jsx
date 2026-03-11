@@ -36,13 +36,9 @@ export default function FormSelect({
   label,
   options,
   placeholder,
-  onAddItem,
-  rules = {}
+  onAddItem
 }) {
-  const {
-    control,
-    formState: { errors }
-  } = useFormContext();
+  const { control } = useFormContext();
 
   return (
     <div className="form-control w-full">
@@ -51,10 +47,10 @@ export default function FormSelect({
           <span className="label-text">{label}</span>
         </label>
       )}
+
       <Controller
         name={name}
         control={control}
-        rules={rules}
         render={({ field }) => (
           <Select
             {...field}
@@ -68,10 +64,9 @@ export default function FormSelect({
               control: (base, state) => ({
                 ...base,
                 backgroundColor: "#262628",
-                borderColor: state.isFocused ? "#3d3d40" : errors[name] ? "#e94d4d" : "#374151",
+                borderColor: state.isFocused ? "#3d3d40" : "#374151",
                 color: "white",
-                fontSize: "14px",
-                borderRadius: "8px"
+                fontSize: "14px"
               }),
               menu: (base) => ({
                 ...base,
@@ -107,11 +102,6 @@ export default function FormSelect({
           />
         )}
       />
-      {errors[name] && (
-        <p className="text-[#e94d4d] text-xs mt-1">
-          {errors[name]?.message}
-        </p>
-      )}
     </div>
   );
 }

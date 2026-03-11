@@ -24,7 +24,7 @@ const BalanceBar = ({ transactions, admin }) => {
   console.log('balance', balance);
 
   return (
-    <div className="p-4 bg-linear-to-r from-[#090040] to-[#065084] text-white rounded-lg mb-4 border border-1 border-[#3d3d40]">
+    <div className="px-4 py-6 bg-linear-to-r from-[#090040] to-[#065084] text-white rounded-lg mb-4 border border-1 border-[#3d3d40]">
       <h2 className="mb-2">Current Balance</h2>
       <p className="text-2xl font-medium">Rp {balance?.toLocaleString("id-ID") || '0'}</p>
     </div>
