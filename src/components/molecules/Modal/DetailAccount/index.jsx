@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { copyText } from "@/helper/copyText";
 import { CheckBadgeIcon, ClipboardDocumentIcon, PencilSquareIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import Button from "@/components/atoms/Button";
+import { useToast } from "@/context/ToastContext";
 
 const DetailAccount = ({ data: dataProps, onEdit, onDelete, onClose }) => {
   const [visible, setVisible] = useState(false);
+  const { showToast } = useToast();
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 10);
@@ -38,7 +40,13 @@ const DetailAccount = ({ data: dataProps, onEdit, onDelete, onClose }) => {
             </div>
             <div className="flex items-center justify-between gap-2">
               <div className="text-1xl font-medium">{dataProps?.accountNumber}</div>
-              <button className="flex aligns-center justify-center px-4 py-2 rounded-lg bg-[#262628] text-white border border-1 border-[#3d3d40] hover:bg-[#3d3d40] transition-colors cursor-pointer" onClick={() => copyText(dataProps?.accountNumber)}>
+              <button
+                className="flex aligns-center justify-center px-4 py-2 rounded-lg bg-[#262628] text-white border border-1 border-[#3d3d40] hover:bg-[#3d3d40] transition-colors cursor-pointer"
+                onClick={() => {
+                  copyText(dataProps?.accountNumber);
+                  showToast('Copied to clipboard!')
+                }}
+              >
                 <ClipboardDocumentIcon className="w-4 h-4 inline-block m-auto" />
               </button>
             </div>

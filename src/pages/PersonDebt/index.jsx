@@ -1,10 +1,13 @@
 import ListTransaction from "@/components/molecules/ListTransaction"
 import { getStorage, saveStorage } from "@/helper/localStorage";
-import { ArrowLeftIcon, CheckBadgeIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/solid"
+import { ArrowLeftIcon, CheckBadgeIcon, ClipboardDocumentIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/solid"
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { useModal } from "@/context/ModalContext";
 import Button from "@/components/atoms/Button";
+import { copyText } from "@/helper/copyText";
+import { formatCurrency } from "@/helper/formatCurrency";
+import { useToast } from "@/context/ToastContext";
 
 const PersonDebt = () => {
   const { id } = useParams();
@@ -13,6 +16,7 @@ const PersonDebt = () => {
   const { openModal } = useModal();
   const [admin, setAdmin] = useState([]);
   const [person, setPerson] = useState([]);
+  const { showToast } = useToast();
 
   const findAdmin = (data) => {
     return data.find(item => item.role === "admin");
@@ -107,6 +111,44 @@ const PersonDebt = () => {
     });
   }
 
+  const exportDebtText = (list) => {
+    const totalAmount = list.reduce((acc, item) => {
+      const amount =
+        item.debtor?.value === admin?.username ? -item.amount : item.amount;
+
+      return acc + amount;
+    }, 0);
+
+    const lines = list.map((item, index) => {
+      const creditor = item.creditor?.label;
+      const debtor = item.debtor?.label;
+      const date = new Date(item.date).toLocaleDateString("id-ID");
+
+      const amount =
+        item.debtor?.value === admin?.username ? -item.amount : item.amount;
+
+      return `${index + 1}. ${item.title} | "debt ${debtor} to ${creditor}" | ${date} | ${formatCurrency(amount)}`;
+    });
+
+    let text = `Debt with ${person?.name} (${formatCurrency(totalAmount)})\n\n${lines.join("\n")}`;
+
+    if (totalAmount < 0) {
+      text += `\n\nSo ${admin?.name} pay debt ${formatCurrency(Math.abs(totalAmount))} to ${person?.name}`;
+    }
+
+    if (totalAmount > 0) {
+      text += `\n\nSo ${person?.name} pay debt ${formatCurrency(totalAmount)} to ${admin?.name}`;
+    }
+
+    return text;
+  };
+
+  const copyDebtText = (list) => {
+    const text = exportDebtText(list);
+    copyText(text);
+    showToast("Copied to clipboard!");
+  };
+
   return (
     <div className="px-6 py-8">
       <div className="flex gap-4 justify-between mb-2">
@@ -125,14 +167,21 @@ const PersonDebt = () => {
           <h2>Current Balance</h2>
           <p className="text-sm text-gray-400">Debt with {person?.name}</p>
         </div>
-        <p className="text-2xl font-medium">Rp {dataFilteredSummary?.totalDebt?.toLocaleString("id-ID") || '0'}</p>
-        <div className="mt-4">
+        <p className="text-2xl font-medium">{formatCurrency(dataFilteredSummary?.totalDebt)}</p>
+        <div className="flex flex-col gap-4 mt-4">
           <Button
             category="primary"
             onClick={() => handleFinishAllDebt()}
           >
             <CheckBadgeIcon className="w-5 h-5 inline-block mr-2" />
             <p className="inline-block">Finish All Debt</p>
+          </Button>
+          <Button
+            category="secondary"
+            onClick={() => copyDebtText(transactions)}
+          >
+            <ClipboardDocumentIcon className="w-5 h-5 inline-block mr-2" />
+            <p className="inline-block">Copy All Debt</p>
           </Button>
         </div>
       </div>
