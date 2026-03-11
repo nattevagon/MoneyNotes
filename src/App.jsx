@@ -24,7 +24,6 @@ function App() {
           h-screen
           bg-[#141414]
           pt-[env(safe-area-inset-top)]
-          pb-[calc(env(safe-area-inset-bottom)+80px)]
         "
         >
           <Routes>
