@@ -5,6 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getStorage, saveStorage } from "@/helper/localStorage";
 import FormInput from "@/components/molecules/Form/FormInput";
 import FormSelect from "@/components/molecules/Form/FormSelect";
+import Button from "@/components/atoms/Button";
+import FormNavigation from "@/components/molecules/FormNavigation";
 
 const FormAccount = () => {
   const { type, id } = useParams();
@@ -219,9 +221,14 @@ const FormAccount = () => {
                 placeholder="Place a Account Number"
                 rules={{ required: "Account number is required" }}
               />
-              <button className="btn bg-linear-to-r from-[#090040] to-[#065084] text-white w-full mt-4 rounded-lg border border-1 border-[#3d3d40]" type="submit">
-                Save
-              </button>
+              <FormNavigation>
+                <Button
+                  category="primary"
+                  type="submit"
+                >
+                  Save
+                </Button>
+              </FormNavigation>
             </form>
           </FormProvider>
         </div>

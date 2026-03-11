@@ -4,7 +4,7 @@ import { ArrowLeftIcon, CheckBadgeIcon, PlusIcon, TrashIcon } from "@heroicons/r
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { useModal } from "@/context/ModalContext";
-import { clearStorage } from "@/helper/localStorage";
+import Button from "@/components/atoms/Button";
 
 const PersonDebt = () => {
   const { id } = useParams();
@@ -127,10 +127,13 @@ const PersonDebt = () => {
         </div>
         <p className="text-2xl font-medium">Rp {dataFilteredSummary?.totalDebt?.toLocaleString("id-ID") || '0'}</p>
         <div className="mt-4">
-          <button className=" bg-[#065084] w-full text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer text-center" onClick={() => handleFinishAllDebt()}>
+          <Button
+            category="primary"
+            onClick={() => handleFinishAllDebt()}
+          >
             <CheckBadgeIcon className="w-5 h-5 inline-block mr-2" />
             <p className="inline-block">Finish All Debt</p>
-          </button>
+          </Button>
         </div>
       </div>
       <div className="mt-4">

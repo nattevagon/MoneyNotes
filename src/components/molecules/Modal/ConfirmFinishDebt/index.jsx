@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { CheckBadgeIcon, PencilSquareIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/solid"
 import { formatDate } from "@/helper/formatDate";
 import { getStorage } from "@/helper/localStorage";
+import Button from "@/components/atoms/Button";
 
 const ConfirmFinishDebt = ({ data, onConfirm, onEdit, onDelete, onClose }) => {
   const [visible, setVisible] = useState(false);
@@ -57,17 +58,29 @@ const ConfirmFinishDebt = ({ data, onConfirm, onEdit, onDelete, onClose }) => {
           </div>
         </div>
         <div className="flex items-stretch justify-between gap-4">
-          <button className="bg-[#262628] w-full text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer flex items-center justify-center gap-2" onClick={onConfirm}>
-            <CheckBadgeIcon className="w-5 h-5 inline-block" />
+          <Button
+            className="flex items-center justify-center gap-2"
+            category="primary"
+            onClick={onConfirm}
+          >
+            <CheckBadgeIcon className="w-5 h-5 inline-block mr-2" />
             <p className="inline-block">Finish</p>
-          </button>
+          </Button>
           <div className="flex items-stretch justify-between gap-4">
-            <button className="bg-[#262628] w-full text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer flex items-center justify-center" onClick={onEdit}>
+            <Button
+              className="flex items-center justify-center"
+              category="secondary"
+              onClick={onEdit}
+            >
               <PencilSquareIcon className="w-5 h-5 inline-block" />
-            </button>
-            <button className="bg-[#262628] w-full text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer flex items-center justify-center" onClick={onDelete}>
+            </Button>
+            <Button
+              className="flex items-center justify-center"
+              category="secondary"
+              onClick={onDelete}
+            >
               <TrashIcon className="w-5 h-5 inline-block" />
-            </button>
+            </Button>
           </div>
         </div>
       </div>

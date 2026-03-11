@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { formatDate } from "@/helper/formatDate";
 import { CheckBadgeIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import Button from "@/components/atoms/Button";
 
 const ConfirmWithDetail = ({ data: dataProps, onConfirm, onClose }) => {
   const [visible, setVisible] = useState(false)
@@ -58,21 +59,30 @@ const ConfirmWithDetail = ({ data: dataProps, onConfirm, onClose }) => {
         )}
         <div className="flex items-center justify-between gap-4">
           {dataProps?.type === 'delete' && (
-            <button className="bg-[#262628] w-full text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer text-center" onClick={onConfirm}>
+            <Button
+              category="primary"
+              onClick={onConfirm}
+            >
               <TrashIcon className="w-5 h-5 inline-block mr-2" />
               <p className="inline-block">Delete</p>
-            </button>
+            </Button>
           )}
           {dataProps?.type === 'finish' && (
-            <button className="bg-[#262628] w-full text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer text-center" onClick={onConfirm}>
+            <Button
+              category="primary"
+              onClick={onConfirm}
+            >
               <CheckBadgeIcon className="w-5 h-5 inline-block mr-2" />
               <p className="inline-block">Finish</p>
-            </button>
+            </Button>
           )}
-          <button className="bg-[#262628] w-full text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer text-center" onClick={onClose}>
+          <Button
+            category="secondary"
+            onClick={onClose}
+          >
             <XMarkIcon className="w-5 h-5 inline-block mr-2" />
             <p className="inline-block">Cancel</p>
-          </button>
+          </Button>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { copyText } from "@/helper/copyText";
 import { CheckBadgeIcon, ClipboardDocumentIcon, PencilSquareIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import Button from "@/components/atoms/Button";
 
 const DetailAccount = ({ data: dataProps, onEdit, onDelete, onClose }) => {
   const [visible, setVisible] = useState(false);
@@ -44,14 +45,22 @@ const DetailAccount = ({ data: dataProps, onEdit, onDelete, onClose }) => {
           </div>
         )}
         <div className="flex items-stretch justify-between gap-4 mt-4">
-          <button className="bg-[#262628] w-full text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer flex items-center justify-center gap-2" onClick={onEdit}>
+          <Button
+            className="flex items-center justify-center gap-2"
+            category="primary"
+            onClick={onEdit}
+          >
             <PencilSquareIcon className="w-5 h-5 inline-block" />
             <p className="inline-block">Edit</p>
-          </button>
-          <button className="bg-[#262628] w-full text-white rounded-lg p-4 border border-1 border-[#3d3d40] hover:bg-[#44444E] transition-colors cursor-pointer flex items-center justify-center gap-2" onClick={onDelete}>
+          </Button>
+          <Button
+            className="flex items-center justify-center gap-2"
+            category="secondary"
+            onClick={onDelete}
+          >
             <TrashIcon className="w-5 h-5 inline-block" />
             <p className="inline-block">Delete</p>
-          </button>
+          </Button>
         </div>
       </div>
     </div>

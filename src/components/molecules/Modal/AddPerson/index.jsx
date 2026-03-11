@@ -2,8 +2,9 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useEffect, useState } from "react"
 import { getStorage, saveStorage } from "@/helper/localStorage";
 import FormInput from "@/components/molecules/Form/FormInput";
+import Button from "@/components/atoms/Button";
 
-const AddPerson = ({ data : dataProps, onConfirm, onClose }) => {
+const AddPerson = ({ data: dataProps, onConfirm, onClose }) => {
   const [visible, setVisible] = useState(false);
   const addPerson = useForm();
 
@@ -18,21 +19,21 @@ const AddPerson = ({ data : dataProps, onConfirm, onClose }) => {
   }
 
   const onSubmitPeople = (data) => {
-      console.log(data);
-      const oldData = getStorage("peoples");
-  
-      const newData = {
-        id: Date.now(),
-        username: data?.peopleName.toLowerCase().replace(/\s/g, ""),
-        name: data?.peopleName,
-        role: dataProps?.type
-      };
-  
-      const updated = [...oldData, newData];
-      saveStorage("peoples", updated);
-      addPerson.reset();
-      onConfirm();
+    console.log(data);
+    const oldData = getStorage("peoples");
+
+    const newData = {
+      id: Date.now(),
+      username: data?.peopleName.toLowerCase().replace(/\s/g, ""),
+      name: data?.peopleName,
+      role: dataProps?.type
     };
+
+    const updated = [...oldData, newData];
+    saveStorage("peoples", updated);
+    addPerson.reset();
+    onConfirm();
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center">
@@ -58,9 +59,13 @@ const AddPerson = ({ data : dataProps, onConfirm, onClose }) => {
                 type="text"
                 placeholder="Place a name"
               />
-              <button className="btn bg-linear-to-r from-[#090040] to-[#065084] text-white w-full mt-4 rounded-lg border border-1 border-[#3d3d40]" type="submit">
+              <Button
+                className="mt-4"
+                category="primary"
+                type="submit"
+              >
                 Save
-              </button>
+              </Button>
             </form>
           </FormProvider>
         </div>

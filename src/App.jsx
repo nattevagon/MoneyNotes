@@ -1,36 +1,52 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 import './App.css'
 import Home from "./pages/Home";
 import Lists from "./pages/Lists";
-import Navigation from "./components/molecules/Navigation";
 import Reports from "./pages/Reports";
 import FormDebtTransaction from "./pages/FormDebtTransaction";
 import FormPocketTransaction from "./pages/FormPocketTransaction";
-import ChooseFormTypeTransaction from "./components/molecules/Modal/ChooseTypeTransaction";
-import ConfirmFinishDebt from "./components/molecules/Modal/ConfirmFinishDebt";
 import { ModalProvider } from "./context/ModalContext";
 import GlobalModal from "./components/molecules/Modal/GlobalModal";
 import PersonDebt from "./pages/PersonDebt";
 import Accounts from "./pages/Accounts";
 import FormAccount from "./pages/FormAccount";
+import MainLayout from "./layouts/MainLayout";
+import NavLayout from "./layouts/NavLayout";
+
+function LayoutWithNav() {
+  return (
+    <NavLayout>
+      <Outlet />
+    </NavLayout>
+  );
+}
+
+function LayoutWithoutNav() {
+  return (
+    <MainLayout>
+      <Outlet />
+    </MainLayout>
+  );
+}
 
 function App() {
   return (
     <BrowserRouter>
       <ModalProvider>
-        <main className="flex flex-col min-h-screen bg-[#141414] pt-[env(safe-area-inset-top)] pb-[98px]">
-          <Routes>
+        <Routes>
+          <Route element={<LayoutWithNav />}>
             <Route path="/" element={<Home />} />
             <Route path="/lists" element={<Lists />} />
             <Route path="/reports" element={<Reports />} />
-            <Route path="/debt-transaction/:type/:id?" element={<FormDebtTransaction />} />
-            <Route path="/pocket-transaction/:type/:id?" element={<FormPocketTransaction />} />
             <Route path="/person-debt/:id" element={<PersonDebt />} />
             <Route path="/account" element={<Accounts />} />
+          </Route>
+          <Route element={<LayoutWithoutNav />}>
             <Route path="/account/:type/:id?" element={<FormAccount />} />
-          </Routes>
-        </main>
-        <Navigation />
+            <Route path="/debt-transaction/:type/:id?" element={<FormDebtTransaction />} />
+            <Route path="/pocket-transaction/:type/:id?" element={<FormPocketTransaction />} />
+          </Route>
+        </Routes>
         <GlobalModal />
       </ModalProvider>
     </BrowserRouter>

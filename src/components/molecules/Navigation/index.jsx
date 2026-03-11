@@ -35,7 +35,7 @@ const Navigation = () => {
             </Link>
           </li>
           <li className="flex items-center justify-center bg-linear-to-r from-[#052f66] to-[#065084] text-white rounded-full">
-            <div className="hover:text-[#3d3d40] p-2 rounded" onClick={() => handleOpenModalChoose()}>
+            <div className="hover:text-[#3d3d40] p-2 rounded cursor-pointer" onClick={() => handleOpenModalChoose()}>
               <PlusIcon className="w-6 h-6 inline-block" />
             </div>
           </li>

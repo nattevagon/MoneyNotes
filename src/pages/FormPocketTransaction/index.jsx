@@ -7,6 +7,8 @@ import FormCurrency from "@/components/molecules/Form/FormCurrency";
 import { getStorage, saveStorage } from "@/helper/localStorage";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowUpCircleIcon, ArrowDownCircleIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
+import Button from "@/components/atoms/Button";
+import FormNavigation from "@/components/molecules/FormNavigation";
 
 const FormPocketTransaction = () => {
   const { type } = useParams();
@@ -100,9 +102,14 @@ const FormPocketTransaction = () => {
                   Number(value) > 0 || "Amount must over than 0"
               }}
             />
-            <button className="btn bg-linear-to-r from-[#090040] to-[#065084] text-white w-full mt-4 rounded-lg border border-1 border-[#3d3d40]" type="submit">
-              Save
-            </button>
+            <FormNavigation>
+              <Button
+                category="primary"
+                type="submit"
+              >
+                Save
+              </Button>
+            </FormNavigation>
           </form>
         </FormProvider>
       </div>
