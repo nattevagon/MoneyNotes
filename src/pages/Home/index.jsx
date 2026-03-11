@@ -11,7 +11,6 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   const [transactions, setTransactions] = useState([]);
-  const addPerson = useForm();
   const [admin, setAdmin] = useState([]);
   const { openModal } = useModal();
 
@@ -54,23 +53,6 @@ const Home = () => {
     fetchPeoples();
   }, []);
 
-  const onSubmitPeople = (data) => {
-    console.log(data);
-    const oldData = getStorage("peoples");
-
-    const newData = {
-      id: Date.now(),
-      username: data.peopleName.toLowerCase().replace(/\s/g, ""),
-      name: data.peopleName,
-      role: "admin"
-    };
-
-    const updated = [...oldData, newData];
-    saveStorage("peoples", updated);
-    addPerson.reset();
-    fetchPeoples();
-  };
-
   return (
     <div className="px-6 py-8">
       <div>
@@ -81,17 +63,16 @@ const Home = () => {
         <BalanceBar transactions={transactions} admin={admin} />
       </div>
       <div className="mt-6">
-        <h2 className="text-lg font-medium mb-2">Person debt with you</h2>
+        <h2 className="text-lg font-medium mb-4">Person debt with you</h2>
         <ListPersonDebt transactions={transactions} admin={admin} />
       </div>
       <div className="mt-6">
-        <div className="flex gap-4 justify-between mb-2">
+        <div className="flex items-center gap-4 justify-between mb-4">
           <h2 className="text-lg font-medium">Latest Transactions</h2>
-          <Link to="/lists" className="flex items-center gap-2 px-3 py-1 rounded-lg bg-[#262628] text-white border border-1 border-[#3d3d40] hover:bg-[#3d3d40] transition-colors cursor-pointer">
-            <ArrowRightIcon className="w-3 h-3 inline-block m-auto" />
+          <Link to="/lists" className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#262628] text-white border border-1 border-[#3d3d40] hover:bg-[#3d3d40] transition-colors cursor-pointer">
+            <ArrowRightIcon className="w-5 h-5 inline-block m-auto" />
           </Link>
         </div>
-
         <ListTransaction transactions={transactions} limit={4} admin={admin} onRefreshList={fetchTransactions} />
       </div>
     </div>

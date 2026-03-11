@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { formatDate } from "@/helper/formatDate";
-import { CheckBadgeIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { CheckBadgeIcon, ClipboardDocumentIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import Button from "@/components/atoms/Button";
 
 const ConfirmWithDetail = ({ data: dataProps, onConfirm, onClose }) => {

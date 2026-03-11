@@ -32,6 +32,7 @@ export default function FormCurrency({
         render={({ field }) => (
           <input
             type="text"
+            inputMode="numeric"
             placeholder={placeholder}
             className={"input w-full bg-[#262628] text-lg text-white rounded-lg p-4 border border-1 border-[#3d3d40]" + (errors[name] ? " text-[#e94d4d] border-[#e94d4d]" : "")}
             value={field.value ? `Rp ${formatRupiah(field.value)}` : ""}

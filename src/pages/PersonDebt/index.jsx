@@ -87,39 +87,32 @@ const PersonDebt = () => {
   // }
 
   const finishAllDebt = () => {
-    console.log('finish all')
     const transactions = getStorage("listTransactions") || [];
-    const updatedTransactions = transactions.map(item =>
-      String(item?.creditor?.value || item?.debtor?.value) === String(person?.username)
+
+    const updatedTransactions = transactions.map((item) =>
+      item.category === "debt" &&
+        [item?.creditor?.value, item?.debtor?.value].includes(person?.username)
         ? { ...item, paidStatus: true }
         : item
     );
+
     saveStorage("listTransactions", updatedTransactions);
     fetchTransactions(id);
-  }
-
-  const handleFinishAllDebt = () => {
-    openModal("confirm", {
-      data: {
-        type: 'finish',
-        title: 'Finish all debt transactions?',
-        desc: ''
-      },
-      onConfirm: () => {
-        finishAllDebt();
-      }
-    });
-  }
+  };
 
   const exportDebtText = (list) => {
-    const totalAmount = list.reduce((acc, item) => {
+    const filteredList = list.filter(
+      item => item.category === "debt" && !item.paidStatus
+    );
+
+    const totalAmount = filteredList.reduce((acc, item) => {
       const amount =
         item.debtor?.value === admin?.username ? -item.amount : item.amount;
 
       return acc + amount;
     }, 0);
 
-    const lines = list.map((item, index) => {
+    const lines = filteredList.map((item, index) => {
       const creditor = item.creditor?.label;
       const debtor = item.debtor?.label;
       const date = new Date(item.date).toLocaleDateString("id-ID");
@@ -143,11 +136,63 @@ const PersonDebt = () => {
     return text;
   };
 
+  const exportDebtHTML = (list) => {
+    const filteredList = list.filter(
+      item => item.category === "debt" && !item.paidStatus
+    );
+
+    const totalAmount = filteredList.reduce((acc, item) => {
+      const amount =
+        item.debtor?.value === admin?.username ? -item.amount : item.amount;
+
+      return acc + amount;
+    }, 0);
+
+    let text = `
+    <p><strong>Debt with ${person?.name} (${formatCurrency(totalAmount)})</strong></p>
+  `;
+
+    text += `<br/><p>~~Copy this to see the list details~~</p><br/>`;
+
+    if (totalAmount < 0) {
+      text += `<p>So ${admin?.name} pay debt ${formatCurrency(Math.abs(totalAmount))} to ${person?.name}</p>`;
+    }
+
+    if (totalAmount > 0) {
+      text += `<p>So ${person?.name} pay debt ${formatCurrency(totalAmount)} to ${admin?.name}</p>`;
+    }
+
+    return text;
+  };
+
   const copyDebtText = (list) => {
     const text = exportDebtText(list);
     copyText(text);
     showToast("Copied to clipboard!");
   };
+
+  const handleFinishAllDebt = () => {
+    const item = {
+      detailText: exportDebtHTML(transactions)
+    };
+
+    openModal("confirmFinishAllDebt", {
+      data: {
+        type: 'finish',
+        title: 'Finish all debt transactions?',
+        desc: '',
+        allDebt: item,
+        admin: admin
+      },
+      onCopy: () => {
+        console.log('copy')
+        copyDebtText(transactions);
+      },
+      onConfirm: () => {
+        finishAllDebt();
+      }
+    });
+  }
 
   return (
     <div className="px-6 py-8">
@@ -167,7 +212,7 @@ const PersonDebt = () => {
           <h2>Current Balance</h2>
           <p className="text-sm text-gray-400">Debt with {person?.name}</p>
         </div>
-        <p className="text-2xl font-medium">{formatCurrency(dataFilteredSummary?.totalDebt)}</p>
+        <p className="text-2xl font-medium">{formatCurrency(dataFilteredSummary?.totalDebt || 0)}</p>
         <div className="flex flex-col gap-4 mt-4">
           <Button
             category="primary"
@@ -176,13 +221,13 @@ const PersonDebt = () => {
             <CheckBadgeIcon className="w-5 h-5 inline-block mr-2" />
             <p className="inline-block">Finish All Debt</p>
           </Button>
-          <Button
+          {/* <Button
             category="secondary"
             onClick={() => copyDebtText(transactions)}
           >
             <ClipboardDocumentIcon className="w-5 h-5 inline-block mr-2" />
             <p className="inline-block">Copy All Debt</p>
-          </Button>
+          </Button> */}
         </div>
       </div>
       <div className="mt-4">

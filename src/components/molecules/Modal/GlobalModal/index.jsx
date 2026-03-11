@@ -5,9 +5,10 @@ import AddPerson from "../AddPerson";
 import Confirm from "../Confirm";
 import DetailAccount from "../DetailAccount";
 import ConfirmWithDetail from "../ConfirmWithDetail";
+import ConfirmFinishAllDebt from "../ConfirmFinishAllDebt";
 
 const GlobalModal = () => {
-  const { modalProps, handleConfirm, handleEdit, handleDelete, closeModal } = useModal();
+  const { modalProps, handleConfirm, handleEdit, handleDelete, handleCopy, closeModal } = useModal();
 
   if (!modalProps.isOpen) return null;
 
@@ -22,6 +23,15 @@ const GlobalModal = () => {
           onConfirm={handleConfirm}
           onEdit={handleEdit}
           onDelete={handleDelete}
+          onClose={closeModal}
+        />
+      );
+    case "confirmFinishAllDebt":
+      return (
+        <ConfirmFinishAllDebt
+          data={modalProps.data}
+          onConfirm={handleConfirm}
+          onCopy={handleCopy}
           onClose={closeModal}
         />
       );

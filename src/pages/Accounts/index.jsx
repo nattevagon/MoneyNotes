@@ -1,18 +1,27 @@
 import { ArrowLeftIcon, ClipboardDocumentIcon, PlusCircleIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { getStorage, saveStorage } from "@/helper/localStorage";
 import { useEffect, useState } from "react";
 import { useModal } from "@/context/ModalContext";
 
 const Accounts = () => {
+  const [searchParams] = useSearchParams();
+
+  // Read a single query parameter
+  const username = searchParams.get('username');
   const navigate = useNavigate();
   const { openModal } = useModal();
   const [listAccount, setListAccount] = useState([]);
 
   const fetchListAccount = () => {
     const data = getStorage("listAccounts");
+    const dataFiltered = data.filter(item => item?.name?.value === username);
 
-    setListAccount(data);
+    if (username) {
+      setListAccount(dataFiltered);
+    } else {
+      setListAccount(data);
+    }
   }
 
   useEffect(() => {
@@ -65,7 +74,7 @@ const Accounts = () => {
         </button> */}
       </div>
       <div className="mt-4">
-        <h2 className="text-lg font-medium mb-2">List person account</h2>
+        <h2 className="text-lg font-medium mb-2">List {username ? "account of " + username : "person account"}</h2>
         <div className="mt-2">
           <div className="grid grid-cols-1 gap-4">
             {listAccount?.map((item) => (
