@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import "react-datepicker/dist/react-datepicker.css";
 import FormInput from "@/components/molecules/Form/FormInput";
@@ -6,7 +7,6 @@ import FormCurrency from "@/components/molecules/Form/FormCurrency";
 import { getStorage, saveStorage } from "@/helper/localStorage";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowUpCircleIcon, ArrowDownCircleIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
-import { useEffect, useState } from "react";
 
 const FormPocketTransaction = () => {
   const { type } = useParams();
@@ -83,6 +83,7 @@ const FormPocketTransaction = () => {
               label="Title"
               type="text"
               placeholder="Place a title"
+              rules={{ required: "Title is required" }}
             />
             <FormDatePicker
               name="date"
@@ -93,6 +94,11 @@ const FormPocketTransaction = () => {
               label="Amount"
               type="number"
               placeholder="Place a amount"
+              rules={{
+                required: "Amount is required",
+                validate: (value) =>
+                  Number(value) > 0 || "Amount must over than 0"
+              }}
             />
             <button className="btn bg-linear-to-r from-[#090040] to-[#065084] text-white w-full mt-4 rounded-lg border border-1 border-[#3d3d40]" type="submit">
               Save
