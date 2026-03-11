@@ -18,14 +18,7 @@ function App() {
   return (
     <BrowserRouter>
       <ModalProvider>
-        <main
-          className="
-          flex flex-col
-          h-screen
-          bg-[#141414]
-          pt-[env(safe-area-inset-top)]
-        "
-        >
+        <main className="flex flex-col min-h-screen bg-[#141414] pt-[env(safe-area-inset-top)] pb-[98px]">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/lists" element={<Lists />} />
