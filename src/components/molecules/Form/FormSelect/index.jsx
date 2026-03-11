@@ -70,13 +70,13 @@ export default function FormSelect({
                 backgroundColor: "#262628",
                 borderColor: state.isFocused ? "#3d3d40" : errors[name] ? "#e94d4d" : "#374151",
                 color: "white",
-                fontSize: "14px",
+                fontSize: "18px",
                 borderRadius: "8px"
               }),
               menu: (base) => ({
                 ...base,
                 backgroundColor: "#262628",
-                fontSize: "14px"
+                fontSize: "18px"
               }),
               option: (base, state) => ({
                 ...base,
@@ -86,22 +86,22 @@ export default function FormSelect({
                     ? "#2d3748"
                     : "#262628",
                 color: "white",
-                fontSize: "14px"
+                fontSize: "18px"
               }),
               singleValue: (base) => ({
                 ...base,
                 color: "white",
-                fontSize: "14px"
+                fontSize: "18px"
               }),
               input: (base) => ({
                 ...base,
                 color: "white",
-                fontSize: "14px"
+                fontSize: "18px"
               }),
               placeholder: (base) => ({
                 ...base,
                 color: "#9ca3af",
-                fontSize: "14px"
+                fontSize: "18px"
               })
             }}
           />
