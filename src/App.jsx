@@ -5,19 +5,20 @@ import GlobalModal from "./components/molecules/Modal/GlobalModal";
 import AnimateRoute from "./routes/AnimateRoute";
 import './App.css'
 
-
 function App() {
   return (
     <BrowserRouter>
       <ModalProvider>
-        <main className="bg-[#141414] flex flex-col min-h-screen pb-20 overflow-hidden">
-          <AnimateRoute />
-        </main>
-        <Navigation />
+        <div className="flex flex-col h-screen bg-[#141414] overflow-hidden">
+          <main className="flex-1 overflow-y-auto pb-20">
+            <AnimateRoute />
+          </main>
+          <Navigation />
+        </div>
         <GlobalModal />
       </ModalProvider>
     </BrowserRouter>
   );
 }
 
-export default App
+export default App;
