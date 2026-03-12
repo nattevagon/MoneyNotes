@@ -136,7 +136,14 @@ const PersonDebt = () => {
     return text;
   };
 
-  const exportDebtHTML = (list) => {
+  const fetchListAccount = (username) => {
+    const data = getStorage("listAccounts");
+    const dataFiltered = data.filter(item => item?.name?.value === username);
+
+    return dataFiltered;
+  }
+
+  const paymentData = (list) => {
     const filteredList = list.filter(
       item => item.category === "debt" && !item.paidStatus
     );
@@ -148,21 +155,13 @@ const PersonDebt = () => {
       return acc + amount;
     }, 0);
 
-    let text = `
-    <p><strong>Debt with ${person?.name} (${formatCurrency(totalAmount)})</strong></p>
-  `;
+    const objectData = {
+      totalAmount: totalAmount,
+      recipient: totalAmount > 0 ? admin?.name : person?.name,
+      recipientAccounts: totalAmount > 0 ? fetchListAccount(admin?.username) : fetchListAccount(person?.username)
+    };
 
-    text += `<br/><p>~~Copy this to see the list details~~</p><br/>`;
-
-    if (totalAmount < 0) {
-      text += `<p>So ${admin?.name} pay debt ${formatCurrency(Math.abs(totalAmount))} to ${person?.name}</p>`;
-    }
-
-    if (totalAmount > 0) {
-      text += `<p>So ${person?.name} pay debt ${formatCurrency(totalAmount)} to ${admin?.name}</p>`;
-    }
-
-    return text;
+    return objectData;
   };
 
   const copyDebtText = (list) => {
@@ -172,9 +171,7 @@ const PersonDebt = () => {
   };
 
   const handleFinishAllDebt = () => {
-    const item = {
-      detailText: exportDebtHTML(transactions)
-    };
+    const item = paymentData(transactions);
 
     openModal("confirmFinishAllDebt", {
       data: {
