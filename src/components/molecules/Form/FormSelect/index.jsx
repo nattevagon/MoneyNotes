@@ -65,13 +65,27 @@ export default function FormSelect({
             onAddItem={onAddItem}
             maxMenuHeight={200}
             styles={{
+              valueContainer: (base) => ({
+                ...base,
+                padding: "8px 16px"
+              }),
               control: (base, state) => ({
                 ...base,
                 backgroundColor: "#262628",
-                borderColor: state.isFocused ? "#3d3d40" : errors[name] ? "#e94d4d" : "#374151",
+                borderColor: "#3d3d40",
                 color: "white",
+                margin: 0,
                 fontSize: "18px",
-                borderRadius: "8px"
+                borderRadius: "8px",
+                boxShadow: errors[name]
+                  ? "0 0 0 2px #e94d4d"
+                  : state.isFocused
+                    ? "0 0 0 2px #939294"
+                    : "none",
+
+                "&:hover": {
+                  borderColor: errors[name] ? "#e94d4d" : "#3d3d40"
+                }
               }),
               menu: (base) => ({
                 ...base,
@@ -86,22 +100,29 @@ export default function FormSelect({
                     ? "#2d3748"
                     : "#262628",
                 color: "white",
-                fontSize: "18px"
+                fontSize: "18px",
+                padding: "16px"
               }),
               singleValue: (base) => ({
                 ...base,
                 color: "white",
+                margin: 0,
+                padding: 0,
                 fontSize: "18px"
               }),
               input: (base) => ({
                 ...base,
                 color: "white",
+                margin: 0,
+                padding: 0,
                 fontSize: "18px"
               }),
               placeholder: (base) => ({
                 ...base,
-                color: "#9ca3af",
-                fontSize: "18px"
+                color: "#939294",
+                fontSize: "18px",
+                margin: 0,
+                padding: 0
               })
             }}
           />

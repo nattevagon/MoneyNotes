@@ -34,7 +34,7 @@ export default function FormCurrency({
             type="text"
             inputMode="numeric"
             placeholder={placeholder}
-            className={"input w-full bg-[#262628] text-lg text-white rounded-lg p-4 border border-1 border-[#3d3d40]" + (errors[name] ? " text-[#e94d4d] border-[#e94d4d]" : "")}
+            className={"w-full bg-[#262628] text-lg text-white rounded-lg px-4 py-2 placeholder-[#939294] focus:outline-[#939294] focus:outline-2 border border-1 border-[#3d3d40]" + (errors[name] ? " text-[#e94d4d] outline-2 focus:outline-[#e94d4d] outline-[#e94d4d]" : "")}
             value={field.value ? `Rp ${formatRupiah(field.value)}` : ""}
             onChange={(e) => {
               const numeric = e.target.value.replace(/\D/g, "");

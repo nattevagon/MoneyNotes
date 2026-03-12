@@ -26,7 +26,7 @@ export default function FormDatePicker({
             onChange={field.onChange}
             placeholderText={placeholder}
             dateFormat="dd/MM/yyyy"
-            className="input w-full bg-[#262628] text-lg text-white rounded-lg p-4 border border-1 border-[#3d3d40]"
+            className="w-full bg-[#262628] text-lg text-white rounded-lg px-4 py-2 placeholder-[#939294] focus:outline-[#939294] focus:outline-2 border border-1 border-[#3d3d40]"
           />
         )}
       />

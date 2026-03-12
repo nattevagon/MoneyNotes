@@ -5,6 +5,7 @@ const FormInput = ({
   label,
   type = "text",
   placeholder,
+  inputMode = "text",
   rules
 }) => {
   const {
@@ -21,8 +22,9 @@ const FormInput = ({
       )}
       <input
         type={type}
+        inputMode={inputMode}
         placeholder={placeholder}
-        className={"input input-bordered w-full bg-[#262628] text-lg text-white rounded-lg p-4 border border-1 border-[#3d3d40]" + (errors[name] ? " text-[#e94d4d] border-[#e94d4d]" : "")}
+        className={"w-full bg-[#262628] text-lg text-white rounded-lg px-4 py-2 placeholder-[#939294] focus:outline-[#939294] focus:outline-2 border border-1 border-[#3d3d40]" + (errors[name] ? " text-[#e94d4d] outline-2 focus:outline-[#e94d4d] outline-[#e94d4d]" : "")}
         {...register(name, rules)}
       />
       {errors[name] && (

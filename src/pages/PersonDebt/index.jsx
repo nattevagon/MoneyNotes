@@ -9,6 +9,7 @@ import { copyText } from "@/helper/copyText";
 import { formatCurrency } from "@/helper/formatCurrency";
 import { useToast } from "@/context/ToastContext";
 
+
 const PersonDebt = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -229,7 +230,11 @@ const PersonDebt = () => {
       </div>
       <div className="mt-4">
         <h2 className="text-lg font-medium mb-2">Transactions</h2>
-        <ListTransaction transactions={transactions} admin={admin} onRefreshList={fetchTransactions} />
+        <ListTransaction
+          transactions={transactions}
+          admin={admin}
+          onRefreshList={() => fetchTransactions(id)}
+        />
       </div>
     </div>
   )

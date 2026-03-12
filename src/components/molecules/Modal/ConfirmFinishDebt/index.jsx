@@ -66,22 +66,33 @@ const ConfirmFinishDebt = ({ data, onConfirm, onEdit, onDelete, onClose }) => {
             <CheckBadgeIcon className="w-5 h-5 inline-block mr-2" />
             <p className="inline-block">Finish</p>
           </Button>
-          <div className="flex items-stretch justify-between gap-4">
-            <Button
-              className="flex items-center justify-center"
-              category="secondary"
-              onClick={onEdit}
-            >
-              <PencilSquareIcon className="w-5 h-5 inline-block" />
-            </Button>
+          {data?.paidStatus ?
             <Button
               className="flex items-center justify-center"
               category="secondary"
               onClick={onDelete}
             >
-              <TrashIcon className="w-5 h-5 inline-block" />
+              <TrashIcon className="w-5 h-5 inline-block mr-2" />
+              <p className="inline-block">Delete</p>
             </Button>
-          </div>
+            :
+            <div className="flex items-stretch justify-between gap-4">
+              <Button
+                className="flex items-center justify-center"
+                category="secondary"
+                onClick={onEdit}
+              >
+                <PencilSquareIcon className="w-5 h-5 inline-block" />
+              </Button>
+              <Button
+                className="flex items-center justify-center"
+                category="secondary"
+                onClick={onDelete}
+              >
+                <TrashIcon className="w-5 h-5 inline-block" />
+              </Button>
+            </div>
+          }
         </div>
       </div>
     </div>

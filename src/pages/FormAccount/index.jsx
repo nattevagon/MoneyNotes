@@ -219,6 +219,7 @@ const FormAccount = () => {
                 label="Account Number"
                 type="number"
                 placeholder="Place a Account Number"
+                inputMode="numeric"
                 rules={{ required: "Account number is required" }}
               />
               <FormNavigation>

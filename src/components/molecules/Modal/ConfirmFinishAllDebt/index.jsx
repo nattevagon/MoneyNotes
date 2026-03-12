@@ -75,7 +75,7 @@ const ConfirmFinishAllDebt = ({ data: dataProps, onConfirm, onCopy, onClose }) =
             onClick={onConfirm}
           >
             <CheckBadgeIcon className="w-5 h-5 inline-block mr-2" />
-            <p className="inline-block">Done</p>
+            <p className="inline-block">Finish Debt</p>
           </Button>
           <Button
             category="secondary"

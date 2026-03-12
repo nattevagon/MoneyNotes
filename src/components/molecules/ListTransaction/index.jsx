@@ -8,13 +8,15 @@ const ListTransaction = ({ transactions, admin, limit = null, onRefreshList }) =
   const navigate = useNavigate();
 
   const handleFinishDebt = (id) => {
-    console.log("confirmWithDetail", id)
     const transactions = getStorage("listTransactions") || [];
-    const updatedTransactions = transactions.map(item =>
-      String(item.id) === String(id)
-        ? { ...item, paidStatus: true }
-        : item
-    );
+
+    const updatedTransactions = transactions.map((item) => {
+      if (item?.id === id && !item?.paidStatus) {
+        return { ...item, paidStatus: true };
+      }
+      return item;
+    });
+
     saveStorage("listTransactions", updatedTransactions);
     onRefreshList();
   };
@@ -54,11 +56,9 @@ const ListTransaction = ({ transactions, admin, limit = null, onRefreshList }) =
     });
   }
 
-  let listWithLimit = transactions;
-
-  if (transactions && limit) {
-    listWithLimit = transactions?.slice(0, limit);
-  }
+  const listWithLimit = [...(transactions || [])]
+    .sort((a, b) => new Date(b?.date) - new Date(a?.date))
+    .slice(0, limit || transactions?.length);
 
   return (
     <div className="flex flex-col gap-4">
